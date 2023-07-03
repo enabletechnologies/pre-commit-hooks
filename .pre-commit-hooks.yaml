@@ -1,0 +1,8 @@
+- id: commitlint
+  name: commitlint
+  description: Commitlint hook
+  language: node
+  entry: commitlint --edit
+  pass_filenames: false
+  always_run: true
+  additional_dependencies: ["@commitlint/config-conventional"]

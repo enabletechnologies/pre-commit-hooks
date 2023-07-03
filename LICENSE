@@ -1,21 +1,22 @@
-MIT License
+Copyright © 2023 Enable Technologies Inc. (“Licensor”)
 
-Copyright (c) 2023 Enable Technologies Inc
+You are granted the right to use the source code owned by Licensor and made available to you in this
+private repository (the “Source Code”) solely under the terms and conditions of the Master Service
+Agreement executed by and between you and Licensor (“MSA”).
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+You may have the right to use any open source software or other third party code not owned or
+maintained by Licensor (collectively, “Third Party Code”) and included in this private repository under
+the applicable licenses governing such Third Party Code.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The Source Code is strictly confidential. In addition to any confidentiality obligations set forth in the
+MSA, you will not disclose the Source Code to any person or entity, and will prevent unauthorized
+disclosure by using at least reasonable care. You will immediately notify Licensor upon discovery of
+any loss or unauthorized disclosure of any Source Code.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+EXCEPT AS SET FORTH IN THE MSA, THE SOURCE CODE IS PROVIDED “AS IS”, WITHOUT
+WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. EXCEPT AS SET FORTH IN THE MSA, IN NO EVENT SHALL LICENSOR
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOURCE CODE OR THE USE OR OTHER DEALINGS IN THE SOURCE CODE.
