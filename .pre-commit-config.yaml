@@ -1,0 +1,41 @@
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+  - pre-push
+
+default_stages:
+  - pre-commit
+  - commit-msg
+  - pre-push
+
+repos:
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-vcs-permalinks
+      - id: end-of-file-fixer
+        exclude: "tests/((commands|data)/|test_).+"
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: debug-statements
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+      - id: detect-private-key
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.4
+    hooks:
+      - id: codespell
+        name: Run codespell to check for common misspellings in files
+        language: python
+        types: [text]
+        args: ["--write-changes", "--ignore-words-list", "asend"]
+
+  # - repo: https://github.com/enabletechnologies/pre-commit-hooks
+  #   rev: main # automatically updated by Commitizen
+  #   hooks:
+  #     - id: commitizen
+  #       stages:
+  #         - commit-msg

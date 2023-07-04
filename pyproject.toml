@@ -1,0 +1,35 @@
+[tool.commitizen]
+version = "0.0.1"
+tag_format = "v$version"
+version_files = [
+  "pyproject.toml:version",
+  "pre-commit-hooks/__init__.py",
+  ".pre-commit-config.yaml:rev:.+Commitizen"
+]
+[tool.poetry]
+name = "pre-commit-hooks"
+version = "0.0.1"
+description = "A project to contain all pre-commit hooks for enable technologies"
+authors = ["Cloudops <cloudops@enabletechnologies.com>"]
+keywords = ["precommit", "conventional", "commits", "git"]
+license = "LICENSE"
+readme = "README.md"
+packages = [{include = "pre-commit-hooks", from = "."}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+black = "^23.3.0"
+isort = "^5.12.0"
+pytest = "^7.4.0"
+flake8 = "^6.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+
+mypy = "^1.4.1"
+coverage = "^7.2.7"
+#pre-commit = "^3.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
