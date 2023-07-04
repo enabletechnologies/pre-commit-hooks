@@ -1,12 +1,10 @@
 default_install_hook_types:
   - pre-commit
-  - commit-msg
   - pre-push
 
 default_stages:
-  - pre-commit
-  - commit-msg
-  - pre-push
+  - commit
+  - push
 
 repos:
 
@@ -34,8 +32,9 @@ repos:
         args: ["--write-changes", "--ignore-words-list", "asend"]
 
   # - repo: https://github.com/enabletechnologies/pre-commit-hooks
-  #   rev: main # automatically updated by Commitizen
+  #   rev: v0.0.3 # automatically updated by Commitizen
   #   hooks:
   #     - id: commitizen
   #       stages:
-  #         - commit-msg
+  #         - post-commit
+  #         - push
