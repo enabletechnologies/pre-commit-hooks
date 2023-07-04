@@ -1,9 +1,12 @@
-- id: commitlint
-  name: commitlint
-  description: Commitlint hook
-  language: node
-  entry: commitlint --edit
-  pass_filenames: false
-  always_run: true
+- id: commitizen
+  name: commitizen check
+  description: >
+    Check whether the current commit message follows commiting rules. Allow
+    empty commit messages by default, because they typically indicate to Git
+    that the commit should be aborted.
+  entry: cz check
+  args: [--allow-abort, --commit-msg-file]
   stages: [commit-msg]
-  additional_dependencies: ["@commitlint/config-conventional"]
+  language: python
+  language_version: python3
+  minimum_pre_commit_version: "3.3.3"
