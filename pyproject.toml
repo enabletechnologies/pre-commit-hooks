@@ -5,7 +5,8 @@ update_changelog_on_bump = true
 version_files = [
   "pyproject.toml:version",
   "pre-commit-hooks/__init__.py",
-  ".pre-commit-config.yaml:rev:.+Commitizen"
+  ".pre-commit-config.yaml:rev:.+Commitizen",
+  "VERSION"
 ]
 [tool.poetry]
 name = "pre-commit-hooks"
