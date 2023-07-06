@@ -1,10 +1,12 @@
 default_install_hook_types:
   - pre-commit
+  - commit-msg
   - pre-push
 
 default_stages:
-  - commit
-  - push
+  - pre-commit
+  - commit-msg
+  - pre-push
 
 repos:
 
@@ -35,6 +37,4 @@ repos:
     rev: v0.0.3 # automatically updated by Commitizen
     hooks:
       - id: commitizen
-        stages:
-          - post-commit
-          - push
+        stages: [commit-msg]
