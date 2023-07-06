@@ -1,16 +1,15 @@
 [tool.commitizen]
-version = "0.0.7"
+version = "0.1.0"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
   "pyproject.toml:version",
   "src/enable/pre-commit-hooks/__init__.py",
-  ".pre-commit-config.yaml:rev:.+Commitizen",
   "VERSION"
 ]
 [tool.poetry]
 name = "enable_pre-commit-hooks"
-version = "0.0.7"
+version = "0.1.0"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = ["Cloudops <cloudops@enabletechnologies.com>"]
 keywords = ["precommit", "conventional", "commits", "git"]
