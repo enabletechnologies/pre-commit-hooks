@@ -31,10 +31,10 @@ repos:
         types: [text]
         args: ["--write-changes", "--ignore-words-list", "asend"]
 
-  # - repo: https://github.com/enabletechnologies/pre-commit-hooks
-  #   rev: v0.0.3 # automatically updated by Commitizen
-  #   hooks:
-  #     - id: commitizen
-  #       stages:
-  #         - post-commit
-  #         - push
+  - repo: https://github.com/enabletechnologies/pre-commit-hooks
+    rev: v0.0.3 # automatically updated by Commitizen
+    hooks:
+      - id: commitizen
+        stages:
+          - post-commit
+          - push
