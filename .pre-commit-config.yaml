@@ -34,7 +34,7 @@ repos:
         args: ["--write-changes", "--ignore-words-list", "asend"]
 
   # - repo: https://github.com/enabletechnologies/pre-commit-hooks
-  #   rev: v0.0.4 # automatically updated by Commitizen
+  #   rev: v0.0.5 # automatically updated by Commitizen
   #   hooks:
   #     - id: commitizen
   #       stages: [commit-msg]
