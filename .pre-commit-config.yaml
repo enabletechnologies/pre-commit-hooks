@@ -37,4 +37,3 @@ repos:
     rev: v0.0.7 # automatically updated by Commitizen
     hooks:
       - id: commitizen
-        stages: [commit-msg]

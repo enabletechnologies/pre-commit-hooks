@@ -17,11 +17,9 @@ Add this to your `.pre-commit-config.yaml`
 
 ```yaml
   - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.0.7 # automatically updated by Commitizen
+    rev: v0.1.0 # automatically updated by Commitizen
     hooks:
       - id: commitizen
-        stages: [commit-msg]
-
 ```
 
 ## Hooks available
