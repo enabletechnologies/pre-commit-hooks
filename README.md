@@ -4,30 +4,34 @@
 
 <h1 align="center">pre-commit-hooks</h1>
 
+
+
+
+# Using pre-commit-hooks with pre-commit
+
 Out-of-the-box hooks for pre-commit
 
 See also: https://github.com/pre-commit/pre-commit
 
-
-### Using pre-commit-hooks with pre-commit
-
 Add this to your `.pre-commit-config.yaml`
 
 ```yaml
--   repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.0.1  # Use the ref you want to point at
+  - repo: https://github.com/enabletechnologies/pre-commit-hooks
+    rev: v0.0.7 # automatically updated by Commitizen
     hooks:
-    -   id: trailing-whitespace
-    # -   id: ...
+      - id: commitizen
+        stages: [commit-msg]
+
 ```
 
-### Hooks available
+## Hooks available
 
-#### `check-added-large-files`
-Prevent giant files from being committed.
-  - Specify what is "too large" with `args: ['--maxkb=123']` (default=500kB).
-  - Limits checked files to those indicated as staged for addition by git.
-  - If `git-lfs` is installed, lfs files will be skipped
-    (requires `git-lfs>=2.2.1`)
-  - `--enforce-all` - Check all listed files not just those staged for
-    addition.
+### `commitizen`
+
+Check all commit messages on the current branch. This is useful for checking commit messages after the fact (e.g., pre-push or in CI) since the existing hook only works at commit time.
+
+[Commitizen](https://commitizen-tools.github.io/commitizen/) is release management tool designed for teams.
+
+Commitizen assumes your team uses a standard way of committing rules and from that foundation, it can bump your project's version, create the changelog, and update files.
+
+By default, commitizen uses conventional commits, but you can build your own set of rules, and publish them.
