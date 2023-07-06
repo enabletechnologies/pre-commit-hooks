@@ -14,9 +14,10 @@ version = "0.0.3"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = ["Cloudops <cloudops@enabletechnologies.com>"]
 keywords = ["precommit", "conventional", "commits", "git"]
-license = "LICENSE"
+license = "Proprietary"
 readme = "README.md"
-packages = [{include = "pre-commit-hooks", from = "."}]
+packages = [{include = "enabletechnologies", from = "src"}]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
