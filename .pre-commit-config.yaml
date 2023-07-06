@@ -25,7 +25,7 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.4
+    rev: v2.2.5
     hooks:
       - id: codespell
         name: Run codespell to check for common misspellings in files
@@ -34,7 +34,7 @@ repos:
         args: ["--write-changes", "--ignore-words-list", "asend"]
 
   - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.0.3 # automatically updated by Commitizen
+    rev: v0.0.7 # automatically updated by Commitizen
     hooks:
       - id: commitizen
         stages: [commit-msg]
