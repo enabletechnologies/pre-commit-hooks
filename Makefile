@@ -32,7 +32,7 @@ help: ## Display this help message
 	@echo "USAGE: make <TARGET>"
 	@echo ""
 	@echo "TARGETS:"
-	@awk -F '##' '/^[a-z_]+:[a-z ]+##/ { printf("\033[34m%-25s\033[0m %s\n", $$1, $$2) }' Makefile
+	@awk -F '##' '/^[a-z_]+:[a-z ]+##/ { printf("\033[34m%-25s\033[0m %s\n", $$1, $$2) }' Makefile	
 
 info: ## Show the current environment info.
 	@echo "Project name: $(PROJECT_NAME)"
@@ -43,23 +43,20 @@ info: ## Show the current environment info.
 
 init: ## Initializes the project. Run this after cloning the repository.
 	@test -e .env || cp -n .env.example .env
-	@pre-commit install
-	@make install
+	@pre-commit install	
+	@make install	
 
 install: ## Install the project in dev mode.
 	@python3 -m venv .venv
 	@poetry install
 
-format: ## Format code using black & isort.
-	@$(VENV_BIN)/isort src/app/
-	@$(VENV_BIN)/black src/app/
-	@$(VENV_BIN)/black tests/
+format: ## Format code using ruff & black.
+	@$(VENV_BIN)/ruff src tests --fix
+	@$(VENV_BIN)/black src tests
 
-lint: ## Run flake8, black, mypy linters.
-	@$(VENV_BIN)/flake8 src/app/
-	@$(VENV_BIN)/black --check src/app/
-	@$(VENV_BIN)/black --check tests/
-	@$(VENV_BIN)/mypy --ignore-missing-imports src/app/
+lint: ## Run ruff & black linters.
+	@$(VENV_BIN)/ruff src tests
+	@$(VENV_BIN)/black src tests --check
 
 test: ## Run tests and generate coverage report.
 	@$(VENV_BIN)/pytest -v --cov-config .coveragerc --cov=src/app -l --tb=short --maxfail=1 tests/
