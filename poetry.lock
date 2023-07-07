@@ -62,23 +62,6 @@ files = [
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
-name = "codespell"
-version = "2.2.5"
-description = "Codespell"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "codespell-2.2.5-py3-none-any.whl", hash = "sha256:efa037f54b73c84f7bd14ce8e853d5f822cdd6386ef0ff32e957a3919435b9ec"},
-    {file = "codespell-2.2.5.tar.gz", hash = "sha256:6d9faddf6eedb692bf80c9a94ec13ab4f5fb585aabae5f3750727148d7b5be56"},
-]
-
-[package.extras]
-dev = ["Pygments", "build", "chardet", "pytest", "pytest-cov", "pytest-dependency", "ruff", "tomli"]
-hard-encoding-detection = ["chardet"]
-toml = ["tomli"]
-types = ["chardet (>=5.1.0)", "mypy", "pytest", "pytest-cov", "pytest-dependency"]
-
-[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -337,7 +320,26 @@ files = [
     {file = "typing_extensions-4.7.1.tar.gz", hash = "sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2"},
 ]
 
+[[package]]
+name = "typos"
+version = "1.15.10"
+description = "Source Code Spelling Correction"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "typos-1.15.10-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:b168d29dc1914b1b446f6062917ac6c36e44e8686ccea5beb0362ca1f2f95fc8"},
+    {file = "typos-1.15.10-py3-none-macosx_11_0_arm64.whl", hash = "sha256:2adeb669ec6b7fe658c7058bb3e2d1f1a5de4c36a332d4abd216a56ed27fb2d1"},
+    {file = "typos-1.15.10-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:183218346893d01e07b6453f5ffdf83ff744a14d49b341913fea4d11dd88f9ff"},
+    {file = "typos-1.15.10-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:bb74466fc8b6469e0f1b9977e72ea3101682e37197c1073f4161b0a91144f6a1"},
+    {file = "typos-1.15.10-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1269abe67a89178bc1e1570a958ac7c312b8863f86f3a1ca15d57f08e26987da"},
+    {file = "typos-1.15.10-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:cbe79eecfa831014c1031943831c3fd5cdf8fdd87c2fd81a7e1b0b5ec22e7871"},
+    {file = "typos-1.15.10-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:0ed02e6558454c9afae671457f3d4a680ec7cb3ea2fe589a7d130b78a906f9d4"},
+    {file = "typos-1.15.10-py3-none-win32.whl", hash = "sha256:d8020995e76b5f3f7a481e021f796441470523ae339e9f010d350c1d4a555db7"},
+    {file = "typos-1.15.10-py3-none-win_amd64.whl", hash = "sha256:4bfabc9a782154fe49fc420f955d61271df26c45d1fe242cc231e6f5b20aedba"},
+    {file = "typos-1.15.10.tar.gz", hash = "sha256:e2e18894f95407dcd70eeed76fd1d0e8d7a3d8aff37cbb207caf633b65786cde"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "2182997ce18663af7b1630c76dd41b47ebb8719d7a1a876f95e4b2521e750e4c"
+content-hash = "fff14a879966762b28f95c8cdf607b9b911444534df4e6ae8d8982304c43871e"
