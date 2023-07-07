@@ -20,22 +20,6 @@
   require_serial: true
   additional_dependencies: []
   minimum_pre_commit_version: "3.3.3"
-- id: pyupgrade
-  name: pyupgrade
-  description: Automatically upgrade syntax for newer versions.
-  entry: pyupgrade
-  language: python
-  types: [python]
-  # for backward compatibility
-  files: ''
-  minimum_pre_commit_version: "3.3.3"
-- id: codespell
-  name: codespell
-  description: Checks for common misspellings in text files.
-  entry: codespell
-  language: python
-  types: [text]
-  args: ["--write-changes", "--ignore-words-list", "asend"]
 - id: black
   name: black
   description: "Black: The uncompromising Python code formatter"
@@ -44,3 +28,11 @@
   minimum_pre_commit_version: 2.9.2
   require_serial: true
   types_or: [python, pyi]
+- id: typos
+  name: typos
+  description: Source code spell checker, binary install
+  language: python
+  entry: typos
+  args: [--write-changes]
+  types: [text]
+  stages: [commit, merge-commit, push, manual]
