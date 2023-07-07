@@ -10,30 +10,26 @@ default_stages:
 
 repos:
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks
+-   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-      - id: check-vcs-permalinks
-      - id: end-of-file-fixer
-        exclude: "tests/((commands|data)/|test_).+"
-      - id: trailing-whitespace
-        args: [--markdown-linebreak-ext=md]
-      - id: debug-statements
-      - id: check-merge-conflict
-      - id: check-toml
-      - id: check-yaml
-      - id: detect-private-key
+    -   id: check-added-large-files
+    -   id: check-toml
+    -   id: check-yaml
+        args:
+        -   --unsafe
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
 
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
-    hooks:
-      - id: codespell
-        name: Run codespell to check for common misspellings in files
-        language: python
-        types: [text]
-        args: ["--write-changes", "--ignore-words-list", "asend"]
-
-  - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.0.7 # automatically updated by Commitizen
-    hooks:
-      - id: commitizen
+  # - repo: https://github.com/enabletechnologies/pre-commit-hooks
+  #   rev: v0.1.0
+  #   hooks:
+  #   -   id: commitizen
+  #   -   id: ruff
+  #       args: [--fix, --exit-non-zero-on-fix]
+  #   -   id: pyupgrade
+  #       args:
+  #       - --py3-plus
+  #       - --keep-runtime-typing
+  #   -   id: codespell
+  #   -   id: black

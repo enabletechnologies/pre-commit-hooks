@@ -10,3 +10,39 @@
   language: python
   language_version: python3
   minimum_pre_commit_version: "3.3.3"
+- id: ruff
+  name: ruff
+  description: "Run 'ruff' for extremely fast Python linting"
+  entry: ruff check --force-exclude
+  language: python
+  'types_or': [python, pyi]
+  args: []
+  require_serial: true
+  additional_dependencies: []
+  minimum_pre_commit_version: "3.3.3"
+- id: pyupgrade
+  name: pyupgrade
+  description: Automatically upgrade syntax for newer versions.
+  entry: pyupgrade
+  language: python
+  types: [python]
+  # for backward compatibility
+  files: ''
+  minimum_pre_commit_version: "3.3.3"
+- id: codespell
+  name: codespell
+  description: Checks for common misspellings in text files.
+  entry: codespell
+  language: python
+  types: [text]
+  args: ["--write-changes", "--ignore-words-list", "asend"]
+  additional_dependencies:
+      - tomli
+- id: black
+  name: black
+  description: "Black: The uncompromising Python code formatter"
+  entry: black
+  language: python
+  minimum_pre_commit_version: 2.9.2
+  require_serial: true
+  types_or: [python, pyi]
