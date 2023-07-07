@@ -36,8 +36,6 @@
   language: python
   types: [text]
   args: ["--write-changes", "--ignore-words-list", "asend"]
-  additional_dependencies:
-      - tomli
 - id: black
   name: black
   description: "Black: The uncompromising Python code formatter"
