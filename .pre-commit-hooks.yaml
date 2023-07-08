@@ -17,6 +17,7 @@
   language: python
   'types_or': [python, pyi]
   args: []
+  stages: [pre-commit]
   require_serial: true
   additional_dependencies: []
   minimum_pre_commit_version: "3.3.3"
@@ -25,8 +26,9 @@
   description: "Black: The uncompromising Python code formatter"
   entry: black
   language: python
-  minimum_pre_commit_version: 2.9.2
+  minimum_pre_commit_version: "3.3.3"
   require_serial: true
+  stages: [pre-commit]
   types_or: [python, pyi]
 - id: typos
   name: typos
@@ -35,4 +37,13 @@
   entry: typos
   args: [--write-changes]
   types: [text]
-  stages: [commit, merge-commit, push, manual]
+  stages: [pre-commit]
+  minimum_pre_commit_version: "3.3.3"
+- id: markdownlint-fix
+  name: markdownlint-fix
+  description: "Fixes the style of Markdown/Commonmark files."
+  entry: markdownlint --fix
+  language: node
+  types: [markdown]
+  stages: [pre-commit]
+  minimum_pre_commit_version: "3.3.3"

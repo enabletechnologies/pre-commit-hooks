@@ -78,6 +78,20 @@ Add this to your `.pre-commit-config.yaml`
     hooks:
     -   id: typos
 ```
+### `markdownlint-fix`
+
+A [pre-commit](https://pre-commit.com/) hook for [markdownlint](https://github.com/DavidAnson/markdownlint).
+typos is a  Source code spell checker
+
+Add this to your `.pre-commit-config.yaml`
+
+```yaml
+  - repo: https://github.com/enabletechnologies/pre-commit-hooks
+    rev: v0.1.0 
+    hooks:
+    -   id: markdownlint-fix
+```
+
 
 
 ### `out of box pre-commit hooks`
