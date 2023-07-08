@@ -16,7 +16,7 @@ repos:
       stages: [pre-commit]
 
 -   repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.6
+    rev: v0.1.9
     hooks:
     -   id: commitizen
     -   id: lint
