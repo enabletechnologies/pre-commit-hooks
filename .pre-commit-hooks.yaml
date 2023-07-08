@@ -10,40 +10,11 @@
   language: python
   language_version: python3
   minimum_pre_commit_version: "3.3.3"
-- id: ruff
-  name: ruff
-  description: "Run 'ruff' for extremely fast Python linting"
-  entry: ruff check --force-exclude
+- id: lint
+  name: lint 
+  entry: make
+  args: ['lint']
+  pass_filenames: false
   language: python
-  'types_or': [python, pyi]
-  args: []
-  stages: [pre-commit]
-  require_serial: true
-  additional_dependencies: []
-  minimum_pre_commit_version: "3.3.3"
-- id: black
-  name: black
-  description: "Black: The uncompromising Python code formatter"
-  entry: black
-  language: python
-  minimum_pre_commit_version: "3.3.3"
-  require_serial: true
-  stages: [pre-commit]
-  types_or: [python, pyi]
-- id: typos
-  name: typos
-  description: Source code spell checker, binary install
-  language: python
-  entry: typos
-  args: [--write-changes]
-  types: [text]
-  stages: [pre-commit]
-  minimum_pre_commit_version: "3.3.3"
-- id: markdownlint-fix
-  name: markdownlint-fix
-  description: "Fixes the style of Markdown/Commonmark files."
-  entry: markdownlint --fix
-  language: node
-  types: [markdown]
   stages: [pre-commit]
   minimum_pre_commit_version: "3.3.3"
