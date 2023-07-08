@@ -4,41 +4,36 @@
 # makes help the default target
 .DEFAULT_GOAL := help
 
+# include .env properties
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
 # location of bin folder of virtual environment
 # all commands are run from this folder
 VENV_BIN:=.venv/bin
 
-# name of the project
-PROJECT_NAME:=project_name
-
-# prefix used for the project, unique for a project
-PROJECT_PREFIX:=project_prefix
-
-# host used for running the application
-HOST:=localhost
-
-# port used for running the application
-PORT:=8000
-
 # location of alembic config file
 ALEMBIC_CONFIG:=src/migrations.ini
 
-# read project version from version file
-VERSION := $(shell cat VERSION)
+# read app version from version file
+APP_VERSION := $(shell cat VERSION)
 
 help: ## Display this help message
-	@echo "VERSION: $(VERSION)"
+	@echo "\033[1mUsage:\033[0m make <target>"
 	@echo ""
-	@echo "USAGE: make <TARGET>"
+	@echo "\033[1mTargets:\033[0m"
 	@echo ""
-	@echo "TARGETS:"
 	@awk -F '##' '/^[a-z_]+:[a-z ]+##/ { printf("\033[34m%-25s\033[0m %s\n", $$1, $$2) }' Makefile	
 
 info: ## Show the current environment info.
-	@echo "Project name: $(PROJECT_NAME)"
-	@echo "Project prefix: $(PROJECT_PREFIX)"
+	@echo "\033[1mApp name:\033[0m $(APP_NAME)"
+	@echo "\033[1mApp prefix:\033[0m $(APP_PREFIX)"
+	@echo "\033[1mApp version:\033[0m $(APP_VERSION)"
+	@echo "\033[1mApp port:\033[0m $(APP_PORT)"
 	@echo ""
-	@echo "Current environment:"
+	@echo "\033[1mCurrent environment:\033[0m"
 	@poetry env info
 
 init: ## Initializes the project. Run this after cloning the repository.
@@ -68,7 +63,7 @@ shell: ## Open a shell in the project.
 	@poetry shell
 
 start: ## Starts the application.
-	@$(VENV_BIN)/uvicorn app.main:app --host=$(HOST) --port=$(PORT) --reload
+	@$(VENV_BIN)/uvicorn app.main:app --host=$(APP_HOST) --port=$(APP_PORT) --reload
 
 upgrade: ## Run migrations upgrade using alembic
 	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG) upgrade head
@@ -77,7 +72,7 @@ downgrade: ## Run migrations downgrade using alembic
 	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG) downgrade -1
 
 migrations: ## Generate a migration using alembic
-	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG) revision --autogenerate --rev-id=$(VERSION)_$$(date +%y%m%d%H%M%S)
+	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG) revision --autogenerate --rev-id=$(APP_VERSION)_$$(date +%y%m%d%H%M%S)
 
 requirements: ## Export the poetry lock file to requirements.txt file format
 	@poetry export -f requirements.txt --output requirements.txt --without-hashes
