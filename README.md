@@ -35,11 +35,9 @@ Add this to your `.pre-commit-config.yaml`
       - id: commitizen
 ```
 
-### `ruff`
+### `lint`
 
-A [pre-commit](https://pre-commit.com/) hook for [Ruff](https://beta.ruff.rs/docs/).
-
-Ruff's pre-commit hook should be placed after other formatting tools, such as Black , unless you enable autofix, in which case, Ruff's pre-commit hook should run before Black, isort, and other formatting tools, as Ruff's autofix behavior can output code changes that require reformatting.
+A [pre-commit](https://pre-commit.com/) hook for Linting. It runs local makefile lint
 
 Add this to your `.pre-commit-config.yaml`
 
@@ -47,52 +45,8 @@ Add this to your `.pre-commit-config.yaml`
   - repo: https://github.com/enabletechnologies/pre-commit-hooks
     rev: v0.1.0 
     hooks:
-    -   id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+    -   id: lint
 ```
-
-### `black`
-
-A [pre-commit](https://pre-commit.com/) hook for [black](https://black.readthedocs.io/en/stable/).
-pyupgrade is a tool to automatically upgrade syntax for newer versions of the language.
-
-Add this to your `.pre-commit-config.yaml`
-
-```yaml
-  - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.0 
-    hooks:
-    -   id: black
-```
-
-### `typos`
-
-A [pre-commit](https://pre-commit.com/) hook for [typos](https://github.com/crate-ci/typos).
-typos is a  Source code spell checker
-
-Add this to your `.pre-commit-config.yaml`
-
-```yaml
-  - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.0 
-    hooks:
-    -   id: typos
-```
-### `markdownlint-fix`
-
-A [pre-commit](https://pre-commit.com/) hook for [markdownlint](https://github.com/DavidAnson/markdownlint).
-typos is a  Source code spell checker
-
-Add this to your `.pre-commit-config.yaml`
-
-```yaml
-  - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.0 
-    hooks:
-    -   id: markdownlint-fix
-```
-
-
 
 ### `out of box pre-commit hooks`
 
