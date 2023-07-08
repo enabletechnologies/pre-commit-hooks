@@ -6,11 +6,14 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-    -   id: check-toml
-    -   id: check-yaml
-        args:
-        -   --unsafe
+    - id: check-toml
+      stages: [pre-commit]
+    - id: check-yaml
+      args:
+          -   --unsafe
+      stages: [pre-commit]
     - id: check-json
+      stages: [pre-commit]
 
 -   repo: https://github.com/enabletechnologies/pre-commit-hooks
     rev: v0.1.6
