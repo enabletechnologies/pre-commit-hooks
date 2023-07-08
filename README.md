@@ -30,7 +30,7 @@ Add this to your `.pre-commit-config.yaml`
 
 ```yaml
   - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.0 
+    rev: v0.2.0 
     hooks:
       - id: commitizen
 ```
@@ -43,7 +43,7 @@ Add this to your `.pre-commit-config.yaml`
 
 ```yaml
   - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.0 
+    rev: v0.2.0 
     hooks:
     -   id: lint
 ```
@@ -58,9 +58,12 @@ Applicable languages are `python,golang,rust`
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-    -   id: check-toml
-    -   id: check-yaml
-        args:
-        -   --unsafe
+    - id: check-toml
+      stages: [pre-commit]
+    - id: check-yaml
+      args:
+          -   --unsafe
+      stages: [pre-commit]
     - id: check-json
+      stages: [pre-commit]
 ```
