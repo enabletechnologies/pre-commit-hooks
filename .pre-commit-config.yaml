@@ -3,21 +3,21 @@ default_install_hook_types:
   - commit-msg
 
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-    - id: check-toml
-      stages: [pre-commit]
-    - id: check-yaml
-      args:
-          -   --unsafe
-      stages: [pre-commit]
-    - id: check-json
-      stages: [pre-commit]
+      - id: check-toml
+        stages: [pre-commit]
+      - id: check-yaml
+        args:
+          - --unsafe
+        stages: [pre-commit]
+      - id: check-json
+        stages: [pre-commit]
 
--   repo: https://github.com/enabletechnologies/pre-commit-hooks
+  - repo: https://github.com/enabletechnologies/pre-commit-hooks
     rev: v0.1.9
     hooks:
-    -   id: commitizen
-    -   id: lint
-
+      - id: commitizen
+      - id: lint
+      # - id: check_poetry_toml

@@ -23,12 +23,15 @@ python = "^3.11"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
+black = "^23.7.0"
 pytest = "^7.4.0"
 coverage = "^7.2.7"
 ruff = "^0.0.277"
 mypy = "^1.4.1"
 typos = "^1.15.10"
+
+[tool.poetry.scripts]
+check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
 
 [tool.black]
 line-length = 120
@@ -47,6 +50,9 @@ convention = "google"
 [tool.ruff.flake8-copyright]
 author = "Enable Technologies Inc"
 notice-rgx = "(?i)Copyright © \\d{4}"
+
+[tool.mypy]
+strict = true
 
 [build-system]
 requires = ["poetry-core"]

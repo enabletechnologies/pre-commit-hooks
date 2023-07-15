@@ -4,15 +4,11 @@
 
 <h1 align="center">pre-commit-hooks</h1>
 
-
-
-
 # Using pre-commit-hooks with pre-commit
 
 Out-of-the-box hooks for pre-commit
 
 See also: https://github.com/pre-commit/pre-commit
-
 
 ## Hooks available
 
@@ -29,10 +25,10 @@ By default, commitizen uses conventional commits, but you can build your own set
 Add this to your `.pre-commit-config.yaml`
 
 ```yaml
-  - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.2.0 
-    hooks:
-      - id: commitizen
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.2.0
+  hooks:
+    - id: commitizen
 ```
 
 ### `lint`
@@ -42,27 +38,40 @@ A [pre-commit](https://pre-commit.com/) hook for Linting. It runs local makefile
 Add this to your `.pre-commit-config.yaml`
 
 ```yaml
-  - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.2.0 
-    hooks:
-    -   id: lint
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.2.0
+  hooks:
+    - id: lint
+```
+
+### `check_poetry_toml`
+
+A [pre-commit](https://pre-commit.com/) hook for Linting poetry config and prevents path dependencies from being checked in
+
+Add this to your `.pre-commit-config.yaml`
+
+```yaml
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.2.0
+  hooks:
+    - id: check_poetry_toml
 ```
 
 ### `out of box pre-commit hooks`
 
-In addition to above list you can add standard [pre-commit-hooks](https://pre-commit.com/hooks.html) provided by pre-commit itself. 
+In addition to above list you can add standard [pre-commit-hooks](https://pre-commit.com/hooks.html) provided by pre-commit itself.
 
 Applicable languages are `python,golang,rust`
 
 ```yaml
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
     - id: check-toml
       stages: [pre-commit]
     - id: check-yaml
       args:
-          -   --unsafe
+        - --unsafe
       stages: [pre-commit]
     - id: check-json
       stages: [pre-commit]
