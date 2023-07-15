@@ -1,5 +1,5 @@
 [tool.commitizen]
-version = "0.1.16rc0"
+version = "0.1.16"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
@@ -9,7 +9,7 @@ version_files = [
 ]
 [tool.poetry]
 name = "enable_pre_commit_hooks"
-version = "0.1.16rc0"
+version = "0.1.16"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = ["Cloudops <cloudops@enabletechnologies.com>"]
 keywords = ["precommit", "conventional", "commits", "git"]
