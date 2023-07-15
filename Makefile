@@ -148,11 +148,11 @@ init_f: ## Force initializes the project. Run this if you want to reset your vir
 release_gh: ## Creates a new GitHub Release for current version
 	@git push origin
 	@git push origin --tags
-	ifneq (,$(findstring rc,$(VERSION)))
-		@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) -p --generate-notes
-	else
-		@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --generate-notes
-	endif
+ifneq (,$(findstring rc,$(VERSION)))
+	@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) -p --generate-notes
+else
+	@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --generate-notes
+endif
 
 docker_build: ## Builds the images
 	@docker compose -f docker-compose.yml build
