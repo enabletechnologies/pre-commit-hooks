@@ -16,8 +16,8 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/enabletechnologies/pre-commit-hooks
-    rev: v0.1.9
+    rev: v0.1.11
     hooks:
       - id: commitizen
       - id: lint
-      # - id: check_poetry_toml
+      - id: check_poetry_toml
