@@ -128,7 +128,7 @@ release_major_rc: ## Releases RC version for next minor version
 release: ## Releases next patch version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@git push origin --tags
+	@git push origin --follow-tags
 
 release_minor: ## Releases next minor version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
