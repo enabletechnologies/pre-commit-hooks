@@ -19,7 +19,7 @@
   stages: [pre-commit]
   minimum_pre_commit_version: "3.3.3"
 - id: check_poetry_toml
-  name: Lint poetry toml
+  name: lint pyproject.toml
   description: checks pyproject.toml files for parseable syntax path dependency.
   entry: check_poetry_toml
   language: python
