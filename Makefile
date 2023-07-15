@@ -130,7 +130,7 @@ release: ## Releases next patch version
 	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
 	@git push origin
 	@git push origin --tags
-	@release_gh
+	@make release_gh
 
 release_minor: ## Releases next minor version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
