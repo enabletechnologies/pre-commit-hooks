@@ -27,3 +27,11 @@
   files: pyproject.toml
   stages: [pre-commit]
   minimum_pre_commit_version: "3.3.3"
+- id: format_mdj
+  name: format_mdj
+  entry: make
+  args: ["format_mdj"]
+  pass_filenames: false
+  language: python
+  stages: [pre-commit]
+  minimum_pre_commit_version: "3.3.3"
