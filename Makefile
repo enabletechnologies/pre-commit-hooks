@@ -58,14 +58,14 @@ install: ## Install the project in dev mode.
 	@poetry install
 	@poetry lock --no-update
 
-format: ## Format code using ruff & black.
-	@$(VENV_BIN)/ruff src tests --fix
-	@$(VENV_BIN)/black src tests
+format: ## Format code using ruff.
+	@$(VENV_BIN)/ruff check src tests
+	@$(VENV_BIN)/ruff format src tests
 
-lint: ## Run ruff & black linters.
+lint: ## Run ruff linters.
 	@$(VENV_BIN)/mypy src tests
-	@$(VENV_BIN)/ruff src tests
-	@$(VENV_BIN)/black src tests --check
+	@$(VENV_BIN)/ruff check src tests
+	@$(VENV_BIN)/ruff format src tests --check
 
 test: ## Run tests and generate coverage report.
 	@$(VENV_BIN)/pytest -v --cov-config .coveragerc --cov=src/app -l --tb=short --maxfail=1 tests/

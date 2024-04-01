@@ -4,4 +4,4 @@ All pre commit hooks supported by enable technologies.
 """
 
 
-__version__ = "0.1.17"
+__version__ = "0.1.18"

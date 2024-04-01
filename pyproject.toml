@@ -1,5 +1,5 @@
 [tool.commitizen]
-version = "0.1.17"
+version = "0.1.18"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
@@ -9,7 +9,7 @@ version_files = [
 ]
 [tool.poetry]
 name = "enable_pre_commit_hooks"
-version = "0.1.17"
+version = "0.1.18"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = ["Cloudops <cloudops@enabletechnologies.com>"]
 keywords = ["precommit", "conventional", "commits", "git"]
@@ -23,7 +23,6 @@ python = "^3.11"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.3.0"
 pytest = "^7.4.0"
 coverage = "^7.2.7"
 ruff = "^0.0.277"
@@ -33,15 +32,13 @@ typos = "^1.15.10"
 [tool.poetry.scripts]
 check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
 
-[tool.black]
-line-length = 120
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/
 # pycodestyle (E) pycodestyle warnings (W) pyflakes (F) flake8-bugbear (B) isort (I) pep8-naming (N) 
 # flake8-quotes (Q) pydocstyle (D) Copyright-related rules (CPY) pyupgrade (UP) flake8-comprehensions (C4)
 select = ["E", "W", "F", "B", "Q", "I", "N", "Q", "D", "C4", "CPY001"]
-line-length = 120
+line-length = 140
 
 [tool.ruff.pydocstyle]
 # Use Google-style docstrings.
