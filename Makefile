@@ -69,10 +69,14 @@ lint: ## Run ruff & typos linters.
 	@$(VENV_BIN)/ruff check src tests
 	@$(VENV_BIN)/ruff format src tests --check
 
-test: ## Run tests and generate coverage report.
-	@$(VENV_BIN)/pytest -v --cov-config .coveragerc --cov=src/app -l --tb=short --maxfail=1 tests/
-	@$(VENV_BIN)/coverage xml
+test: ## Run tests.
+	@$(VENV_BIN)/coverage run -m pytest -v tests/ 
+
+test_cov: ## Run tests and generate coverage report.
+	@$(MAKE) test || exit 1
+	@$(VENV_BIN)/coverage report --show-missing
 	@$(VENV_BIN)/coverage html
+	@$(VENV_BIN)/coverage xml
 
 shell: ## Open a shell in the project.
 	@echo "Please run 'deactivate' to exit the shell"

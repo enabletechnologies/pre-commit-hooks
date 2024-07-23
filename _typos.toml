@@ -1,0 +1,23 @@
+[files]
+extend-exclude = ["*.mdj", "*.json", "test_check_commit_msg.py"]
+
+[default.extend-identifiers]
+
+
+[default.extend-words]
+# Don't correct specific words
+prepend ="prepend"
+prepended="prepended"
+prev="prev"
+goes="goes"
+informations="informations"
+HSA="HSA"
+LOV="LOV"
+BCK="BCK"
+KMS="KMS"
+
+[default]
+locale = "en-us"
+extend-ignore-re = [
+    "API_KEY.*"
+]
