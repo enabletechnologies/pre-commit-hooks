@@ -1,7 +1,7 @@
 """Copyright © 2023 Enable Technologies Inc."""
+
 import logging
 import pathlib
-
 import tomllib
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ def main() -> int:
         print(f"{poetry_file}: {exc}")
         retval = 1
     except Exception as exc:
-        print(f"{poetry_file}: {exc}")
+        logger.exception("%s:", poetry_file, exc_info=exc)
         retval = 1
 
     return retval

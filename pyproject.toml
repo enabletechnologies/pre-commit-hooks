@@ -23,34 +23,53 @@ python = "^3.11"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
-coverage = "^7.2.7"
-ruff = "^0.0.277"
-mypy = "^1.4.1"
-typos = "^1.15.10"
+pytest = "^8.3.1"
+coverage = "^7.6.0"
+ruff = "^0.5.4"
+mypy = "^1.11.0"
+typos = "^1.23.3"
 
 [tool.poetry.scripts]
 check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
-
+check_commit_msg = "enable.pre_commit_hooks.check_commit_msg:main"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/
 # pycodestyle (E) pycodestyle warnings (W) pyflakes (F) flake8-bugbear (B) isort (I) pep8-naming (N) 
 # flake8-quotes (Q) pydocstyle (D) Copyright-related rules (CPY) pyupgrade (UP) flake8-comprehensions (C4)
-select = ["E", "W", "F", "B", "Q", "I", "N", "Q", "D", "C4", "CPY001"]
+# Ruff-specific rules (RUF) Perflint (PERF) flake8-pytest-style (PT) implicit-namespace-package (INP001)
+# flake8-todos (TD) flake8-blind-except (BLE) flake8-simplify (SIM)
+lint.select = ["E", "W", "F", "B", "Q", "I", "N", "Q", "D", "C4", "CPY001", "RUF", "PERF", "PT", "INP001", "TD", "BLE", "SIM"]
 line-length = 140
+preview = true
+lint.ignore = ["RUF012", "D205", "TD003", "SIM108"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 # Use Google-style docstrings.
 convention = "google"
 
-[tool.ruff.flake8-copyright]
+[tool.ruff.lint.flake8-copyright]
 author = "Enable Technologies Inc"
 notice-rgx = "(?i)Copyright © \\d{4}"
 
 [tool.mypy]
 strict = true
+mypy_path = ["src", "tests"]
+
+[tool.coverage.run]
+source = [ "src/enable" ]
+relative_files = true
+data_file = "coverage-reports/.coverage"
+
+[tool.coverage.xml]
+output = "coverage-reports/coverage.xml"
+
+[tool.coverage.html]
+directory = "coverage-reports/htmlcov"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[project]
+requires-python = ">=3.11"

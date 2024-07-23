@@ -58,12 +58,14 @@ install: ## Install the project in dev mode.
 	@poetry install
 	@poetry lock --no-update
 
-format: ## Format code using ruff.
-	@$(VENV_BIN)/ruff check src tests
+format: ## Format code using ruff & typos.
+	@$(VENV_BIN)/ruff check src tests --fix
 	@$(VENV_BIN)/ruff format src tests
 
-lint: ## Run ruff linters.
-	@$(VENV_BIN)/mypy src tests
+lint: ## Run ruff & typos linters.
+	@MYPYPATH=src $(VENV_BIN)/mypy -p enable.pre_commit_hooks
+	@$(VENV_BIN)/mypy tests
+	@$(VENV_BIN)/typos
 	@$(VENV_BIN)/ruff check src tests
 	@$(VENV_BIN)/ruff format src tests --check
 
