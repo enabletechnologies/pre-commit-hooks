@@ -1,4 +1,10 @@
 
+## v0.1.20 (2024-07-23)
+
+### Feat
+
+- **check-commit-msg**: added hook for checking gh issue number and typos in commit messages #2
+
 ## v0.1.19 (2024-07-23)
 
 ## v0.1.18 (2024-04-01)
