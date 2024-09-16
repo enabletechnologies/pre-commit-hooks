@@ -42,3 +42,19 @@
   language: python
   stages: [commit-msg]
   minimum_pre_commit_version: "3.3.3"
+- id: eslint
+  name: run eslint
+  description: run eslint on staged files.
+  entry: node_modules/.bin/eslint
+  language: system
+  stages: [pre-commit]
+  types_or: [javascript, jsx, ts, tsx]
+  minimum_pre_commit_version: "3.3.3"
+- id: stylelint
+  name: run stylelint
+  description: run stylelint on staged files.
+  entry: node_modules/.bin/stylelint
+  language: system
+  stages: [pre-commit]
+  types_or: [css, tsx, scss]
+  minimum_pre_commit_version: "3.3.3"
