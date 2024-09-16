@@ -49,6 +49,7 @@
   language: system
   stages: [pre-commit]
   types_or: [javascript, jsx, ts, tsx]
+  args: [--cache]
   minimum_pre_commit_version: "3.3.3"
 - id: stylelint
   name: run stylelint
@@ -57,4 +58,5 @@
   language: system
   stages: [pre-commit]
   types_or: [css, tsx, scss]
+  args: [--cache]
   minimum_pre_commit_version: "3.3.3"
