@@ -1,4 +1,10 @@
 
+## v0.1.21 (2024-09-16)
+
+### Feat
+
+- **eslint**: eslint, stylelint staged files in ui projects #3
+
 ## v0.1.20 (2024-07-23)
 
 ### Feat
