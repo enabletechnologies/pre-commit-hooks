@@ -1,4 +1,10 @@
 
+## v0.2.0 (2024-10-12)
+
+### Fix
+
+- **hook**: include md, mdx files in precommit hook - eslint #4
+
 ## v0.1.22 (2024-09-17)
 
 ## v0.1.21 (2024-09-16)
