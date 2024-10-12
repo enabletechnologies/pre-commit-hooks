@@ -172,3 +172,9 @@ docker_down: ##  Stops the running containers, also removes the stopped containe
 docker_prune: ## Prunes unused (dangling) images from local docker registry
 	@docker image prune -f
 	@docker builder prune -f
+
+pull: ## Pulls latest changes
+	@git pull --rebase
+
+push: ## Pushes local commits to remote repository
+	@git push

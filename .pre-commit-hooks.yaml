@@ -48,7 +48,7 @@
   entry: node_modules/.bin/eslint
   language: system
   stages: [pre-commit]
-  types_or: [javascript, jsx, ts, tsx]
+  types_or: [javascript, jsx, ts, tsx, mjs, md, mdx]
   args: [--cache]
   minimum_pre_commit_version: "3.3.3"
 - id: stylelint
