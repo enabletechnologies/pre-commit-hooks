@@ -116,44 +116,46 @@ check_dependencies: ## Check dependencies for latest available version
 
 check_deps: check_dependencies # alias for check_dependencies
 
-release_rc: ## Releases RC version for next patch version
-	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment PATCH -pr rc --yes --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@make release_gh
-
-release_minor_rc: ## Releases RC version for next minor version
-	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MINOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@make release_gh
-
-release_major_rc: ## Releases RC version for next minor version
-	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MAJOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@make release_gh
-
-release: ## Releases next patch version
-	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@make release_gh
-
-release_minor: ## Releases next minor version
-	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MINOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@make release_gh
-
-release_major: ## Releases next minor version
-	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MAJOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
-	@make release_gh
-
 init_f: ## Force initializes the project. Run this if you want to reset your virtual env and env parameters
 	@[ -e .env ] && rm .env || true
 	@[ -d .venv ] && rm -rf .venv || true
 	@make init
 
-release_gh: ## Creates a new GitHub Release for current version
-	@git push origin
+release_rc: ## Releases RC version for next patch version
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+	@cz bump --increment PATCH -pr rc --yes --no-verify --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
 	@git push origin --tags
+
+release_minor_rc: ## Releases RC version for next minor version
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+	@cz bump --increment MINOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@git push origin --tags
+
+release_major_rc: ## Releases RC version for next major version
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+	@cz bump --increment MAJOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@git push origin --tags
+
+release: ## Releases next patch version
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+ifneq (, $(v))
+	@cz bump --git-output-to-stderr --changelog-to-stdout $(v) > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+else
+	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+endif
+	@git push origin --tags
+
+release_minor: ## Releases next minor version
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+	@cz bump --increment MINOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@git push origin --tags
+
+release_major: ## Releases next major version
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+	@cz bump --increment MAJOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@git push origin --tags
+
+release_gh: ## Creates a new GitHub Release for current version
 ifneq (,$(findstring rc,$(VERSION)))
 	@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) -p --generate-notes
 else
