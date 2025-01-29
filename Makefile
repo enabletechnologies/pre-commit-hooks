@@ -48,7 +48,6 @@ info: ## Show the current environment info.
 
 init: ## Initializes the project. Run this after cloning the repository.
 	@[ -e .env ] || cp .env.example .env
-	@[ -e .dockerenv ] || cp .dockerenv.example .dockerenv
 	@pre-commit install
 	@make install
 
