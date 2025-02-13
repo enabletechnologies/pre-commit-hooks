@@ -19,15 +19,15 @@ packages = [{include = "enable", from = "src"}]
 
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.13"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.1"
-coverage = "^7.6.0"
-ruff = "^0.5.4"
-mypy = "^1.11.0"
-typos = "^1.23.3"
+pytest = "^8.3.4"
+coverage = "^7.6.12"
+ruff = "^0.5.7"
+mypy = "^1.15.0"
+typos = "^1.29.5"
 
 [tool.poetry.scripts]
 check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
@@ -73,4 +73,4 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "enable_pre_commit_hooks"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
