@@ -1,4 +1,10 @@
 
+## v0.6.0 (2025-03-12)
+
+### Fix
+
+- **hooks**: check for path dependencies in project.dependencies enabletechnologies/common#551
+
 ## v0.5.1 (2025-02-13)
 
 ## v0.5.0 (2025-01-29)
