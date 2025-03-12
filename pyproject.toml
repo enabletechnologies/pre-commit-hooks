@@ -1,3 +1,21 @@
+[project]
+name = "enable_pre_commit_hooks"
+version = "0.6.0"
+description = "A project to contain all pre-commit hooks for enable technologies"
+authors = [{ name = "Cloud Ops Admin", email = "cloudops@enable-technologies.com" }]
+keywords = ["precommit", "conventional", "commits", "git"]
+license = "Proprietary"
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = []
+optional-dependencies = {dev = [
+  "pytest (>=8.3.5,<9.0.0)", 
+  "coverage (>=7.6.12,<8.0.0)", 
+  "ruff (>=0.9.10,<0.10.0)", 
+  "mypy (>=1.15.0,<2.0.0)", 
+  "typos (>=1.30.2,<2.0.0)"
+]}
+
 [tool.commitizen]
 version = "0.6.0"
 tag_format = "v$version"
@@ -7,29 +25,11 @@ version_files = [
   "src/enable/pre_commit_hooks/__init__.py",
   "VERSION"
 ]
+
 [tool.poetry]
-name = "enable_pre_commit_hooks"
-version = "0.6.0"
-description = "A project to contain all pre-commit hooks for enable technologies"
-authors = ["Cloudops <cloudops@enabletechnologies.com>"]
-keywords = ["precommit", "conventional", "commits", "git"]
-license = "Proprietary"
-readme = "README.md"
 packages = [{include = "enable", from = "src"}]
 
-
-[tool.poetry.dependencies]
-python = "^3.13"
-
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.4"
-coverage = "^7.6.12"
-ruff = "^0.5.7"
-mypy = "^1.15.0"
-typos = "^1.29.5"
-
-[tool.poetry.scripts]
+[project.scripts]
 check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
 check_commit_msg = "enable.pre_commit_hooks.check_commit_msg:main"
 
@@ -70,7 +70,3 @@ directory = "coverage-reports/htmlcov"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[project]
-name = "enable_pre_commit_hooks"
-requires-python = ">=3.13"
