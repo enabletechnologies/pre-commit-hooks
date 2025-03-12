@@ -16,10 +16,16 @@ def main() -> int:
         pyproject_path = pathlib.Path(poetry_file)
         pyproject_text = pyproject_path.read_text()
         pyproject_data = tomllib.loads(pyproject_text)
-        dependencies_data = pyproject_data["tool"]["poetry"]["dependencies"]
-        for dep in dependencies_data.values():
+        # check in poetry section for path dependencies
+        for dep in pyproject_data["tool"]["poetry"].get("dependencies", {}).values():
             if isinstance(dep, dict) and ("path" in dep):
-                raise ValueError(f"Please remove path dependencies  {dep} from pyproject.toml before checkin ")
+                raise ValueError(
+                    f"Please remove path dependencies '{dep}' from [tool.poetry.dependencies] in pyproject.toml before checkin "
+                )
+        # check in project section for path dependencies
+        for dep in pyproject_data["project"].get("dependencies", []):
+            if isinstance(dep, str) and "file://" in dep:
+                raise ValueError(f"Please remove path dependencies '{dep}' from [project] in pyproject.toml before checkin ")
 
     except tomllib.TOMLDecodeError as exc:
         print(f"{poetry_file}: {exc}")
