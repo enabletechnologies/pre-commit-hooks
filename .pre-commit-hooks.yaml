@@ -60,3 +60,12 @@
   types_or: [css, tsx, scss]
   args: [--cache]
   minimum_pre_commit_version: "3.3.3"
+- id: check_uv_toml
+  name: lint pyproject.toml
+  description: checks pyproject.toml files for parseable syntax path dependency.
+  entry: check_uv_toml
+  language: python
+  types: [toml]
+  files: pyproject.toml
+  stages: [pre-commit]
+  minimum_pre_commit_version: "3.3.3"
