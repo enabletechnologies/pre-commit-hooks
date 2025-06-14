@@ -32,6 +32,7 @@ packages = [{include = "enable", from = "src"}]
 [project.scripts]
 check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
 check_commit_msg = "enable.pre_commit_hooks.check_commit_msg:main"
+check_uv_toml = "enable.pre_commit_hooks.check_uv_toml:main"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/

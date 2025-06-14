@@ -57,6 +57,19 @@ Add this to your `.pre-commit-config.yaml`
     - id: check_poetry_toml
 ```
 
+### `check_uv_toml`
+
+A [pre-commit](https://pre-commit.com/) hook for Linting uv config and prevents path dependencies from being checked in
+
+Add this to your `.pre-commit-config.yaml`
+
+```yaml
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.7.1
+  hooks:
+    - id: check_uv_toml
+```
+
 ### `out of box pre-commit hooks`
 
 In addition to above list you can add standard [pre-commit-hooks](https://pre-commit.com/hooks.html) provided by pre-commit itself.
