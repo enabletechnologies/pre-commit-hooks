@@ -154,6 +154,10 @@ release_major: ## Releases next major version
 	@cz bump --increment MAJOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
 	@git push origin --tags
 
+release_calver: ## Releases next minor rc version for the calver versioning scheme
+	@cz bump --git-output-to-stderr --changelog-to-stdout $$(date +%Y.%-m.0rc0)
+	@git push origin --tags
+
 release_gh: ## Creates a new GitHub Release for current version
 ifneq (,$(findstring rc,$(VERSION)))
 	@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) -p --generate-notes
