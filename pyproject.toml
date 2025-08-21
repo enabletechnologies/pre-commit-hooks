@@ -70,6 +70,8 @@ convention = "google"
 author = "Enable Technologies Inc"
 notice-rgx = "(?i)Copyright © \\d{4}"
 
+[tool.uv]
+
 [tool.mypy]
 strict = true
 mypy_path = ["src", "tests"]
