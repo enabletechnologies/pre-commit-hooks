@@ -3,18 +3,30 @@ name = "enable_pre_commit_hooks"
 version = "25.8.0"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = [{ name = "Cloud Ops Admin", email = "cloudops@enable-technologies.com" }]
-keywords = ["precommit", "conventional", "commits", "git"]
-license = "Proprietary"
-readme = "README.md"
 requires-python = ">=3.13,<3.14"
+readme = "README.md"
+license = "LicenseRef-Proprietary"
+license-files = ["LICENSE"]
+keywords = [
+    "precommit",
+    "conventional",
+    "commits",
+    "git",
+]
 dependencies = []
-optional-dependencies = {dev = [
-  "pytest (>=8.3.5,<9.0.0)", 
-  "coverage (>=7.6.12,<8.0.0)", 
-  "ruff (>=0.9.10,<0.10.0)", 
-  "mypy (>=1.15.0,<2.0.0)", 
-  "typos (>=1.30.2,<2.0.0)"
-]}
+
+[project.optional-dependencies]
+dev = [
+    "pytest-mock>=3.14.1,<4",
+    "coverage>=7.10.4,<8",
+    "ruff>=0.11.13,<0.12",
+    "mypy>=1.17.1,<2",
+    "typos>=1.35.4,<2",
+]
+
+[project.scripts]
+check_commit_msg = "enable.pre_commit_hooks.check_commit_msg:main"
+check_uv_toml = "enable.pre_commit_hooks.check_uv_toml:main"
 
 [tool.commitizen]
 version = "25.8.0"
@@ -26,13 +38,18 @@ version_files = [
   "VERSION"
 ]
 
-[tool.poetry]
-packages = [{include = "enable", from = "src"}]
+[tool.hatch.build.targets.sdist]
+include = ["src/enable"]
 
-[project.scripts]
-check_poetry_toml = "enable.pre_commit_hooks.check_poetry_toml:main"
-check_commit_msg = "enable.pre_commit_hooks.check_commit_msg:main"
-check_uv_toml = "enable.pre_commit_hooks.check_uv_toml:main"
+[tool.hatch.build.targets.wheel]
+include = ["src/enable"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/enable" = "enable"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/
@@ -41,9 +58,9 @@ check_uv_toml = "enable.pre_commit_hooks.check_uv_toml:main"
 # Ruff-specific rules (RUF) Perflint (PERF) flake8-pytest-style (PT) implicit-namespace-package (INP001)
 # flake8-todos (TD) flake8-blind-except (BLE) flake8-simplify (SIM)
 lint.select = ["E", "W", "F", "B", "Q", "I", "N", "Q", "D", "C4", "CPY001", "RUF", "PERF", "PT", "INP001", "TD", "BLE", "SIM"]
+lint.ignore = ["RUF012", "D205", "TD003", "SIM108"]
 line-length = 140
 preview = true
-lint.ignore = ["RUF012", "D205", "TD003", "SIM108"]
 
 [tool.ruff.lint.pydocstyle]
 # Use Google-style docstrings.
@@ -67,7 +84,3 @@ output = "coverage-reports/coverage.xml"
 
 [tool.coverage.html]
 directory = "coverage-reports/htmlcov"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

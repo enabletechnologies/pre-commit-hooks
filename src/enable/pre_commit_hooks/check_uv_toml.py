@@ -16,7 +16,7 @@ def main() -> int:
         pyproject_path = pathlib.Path(uv_file)
         pyproject_text = pyproject_path.read_text()
         pyproject_data = tomllib.loads(pyproject_text)
-        # check in poetry section for path dependencies
+        # check in uv section for path dependencies
         for dep in pyproject_data["tool"]["uv"].get("sources", {}).values():
             if isinstance(dep, dict) and ("path" in dep):
                 raise ValueError(f"Please remove path dependencies '{dep}' from [tool.uv.sources] in pyproject.toml before checkin ")

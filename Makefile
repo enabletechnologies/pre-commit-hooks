@@ -7,14 +7,12 @@
 # include .env properties
 ifneq (,$(wildcard ./.env))
     include .env
+	export
 endif
 
 # location of bin folder of virtual environment
 # all commands are run from this folder
 VENV_BIN:=.venv/bin
-
-# location of alembic config file
-ALEMBIC_CONFIG_FILE:=src/migrations.ini
 
 # reads current version from version file
 VERSION := $(shell cat VERSION)
@@ -27,6 +25,21 @@ CHANGELOG_NOTES_FILE := changelog_notes.md
 
 # docker folder, where build time artifacts go in 
 DOCKER_DIST_DIR := dist/docker
+
+# path to psql cmd
+PSQL_CMD := /Library/PostgreSQL/15/bin/psql
+
+COMMON_GIT := https://github.com/enabletechnologies/common.git
+COMMON_DIR := ../common
+
+# branch root, for (main-fixes, main) it is main, for (lts-fixes, lts) it is lts
+BRANCH_ROOT := $(shell git branch --show-current | awk -F\- '{print $1}')
+
+# python version used by uv and others
+PYTHON_VERSION := 3.13
+
+# deploy directory, where the common scripts are located
+DEPLOY_DIR ?= ../deploy
 
 help: ## Display this help message
 	@echo ""
@@ -44,95 +57,152 @@ info: ## Show the current environment info.
 	@echo "\033[1mApp port:\033[0m $(APP_PORT)"
 	@echo ""
 	@echo "\033[1mCurrent environment:\033[0m"
-	@poetry env info
+	@uv venv info
 
 init: ## Initializes the project. Run this after cloning the repository.
 	@[ -e .env ] || cp .env.example .env
 	@pre-commit install
-	@make install
+	@$(MAKE) install || exit 1
 
-install: ## Install the project in dev mode.
-	@[ -d .venv ] || python3 -m venv .venv
-	@. .venv/bin/activate
-	@poetry install
-	@poetry lock --no-update
+init_f: ## Force initializes the project. Run this if you want to reset your virtual env and env parameters
+	@[ -e .env ] && rm .env || true
+	@[ -e .dockerenv ] && rm .dockerenv || true
+	@[ -d .venv ] && rm -rf .venv || true
+	@$(MAKE) init || exit 1
+
+install: ## Install the project dependencies in dev mode.
+	@uv venv -p $(PYTHON_VERSION) --allow-existing && uv sync --all-extras --active --frozen
+	@echo "Please run 'make install_f' if you have manually updated dependencies in pyproject.toml."
+
+install_f: ## Install the project dependencies in dev mode and synchronize uv.lock if required.
+	@[ -d .venv ] && rm -rf .venv || true
+	@uv lock
+	@$(MAKE) install || exit 1
 
 format: ## Format code using ruff & typos.
-	@$(VENV_BIN)/ruff check src tests --fix
-	@$(VENV_BIN)/ruff format src tests
+	@uv run ruff check src tests --fix
+	@uv run ruff format src tests
 
-lint: ## Run ruff & typos linters.
-	@MYPYPATH=src $(VENV_BIN)/mypy -p enable.pre_commit_hooks
-	@$(VENV_BIN)/mypy tests
-	@$(VENV_BIN)/typos
-	@$(VENV_BIN)/ruff check src tests
-	@$(VENV_BIN)/ruff format src tests --check
+lint: ## Lint source code, docs, etc.
+	@uv run mypy -p enable.pre_commit_hooks
+	@uv run typos || exit 1
+	@uv run ruff check src tests || exit 1
+	@uv run ruff format src tests --check || exit 1
 
+lint_docs: ## Lint docs.
+	@markdownlint docs
+
+format_docs: ## Format docs.
+	@markdownlint --fix docs
+
+
+numthreads ?=auto
 test: ## Run tests.
-	@$(VENV_BIN)/coverage run -m pytest -v tests/ 
+	@DEFAULT_TENANT_ID=enabletest make upgrade
+	@uv run pytest -v tests/ -n $(numthreads) --cov --dist=loadscope --maxprocesses=6
 
 test_cov: ## Run tests and generate coverage report.
 	@$(MAKE) test || exit 1
-	@$(VENV_BIN)/coverage report --show-missing
-	@$(VENV_BIN)/coverage html
-	@$(VENV_BIN)/coverage xml
+	@uv run coverage report --show-missing
+	@uv run coverage html
+	@uv run coverage xml
 
 shell: ## Open a shell in the project.
-	@echo "Please run 'deactivate' to exit the shell"
-	@poetry shell
+	@echo "Please run source $(VENV_BIN)/activate to activate the virtual environment." 	
 
 start: ## Starts the application.
-	@$(VENV_BIN)/uvicorn app.main:app --host=$(APP_HOST) --port=$(APP_PORT) --reload
+	@$(MAKE) install || exit 1
+ifeq (prod, $(m))
+	@echo 'Starting app in production mode. Reload is disabled!'
+	@uv run uvicorn app.main:app --host=$(APP_HOST) --port=$(APP_PORT) --no-server-header --forwarded-allow-ips="*" --proxy-headers --workers=2 &
+else
+	@uv run uvicorn app.main:app --host=$(APP_HOST) --port=$(APP_PORT) --no-server-header --forwarded-allow-ips="*" --proxy-headers --reload &
+endif
 
-upgrade: ## Run migrations upgrade using alembic
-	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG_FILE) upgrade head
+upgrade:  ## Run migrations upgrade using alembic, use r (optional) flag to specify rev-id
+	@uv run alembic upgrade $(if $(r),$(r),head)
 
-downgrade: ## Run migrations downgrade using alembic
-	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG_FILE) downgrade -1
+downgrade: ## Run migrations downgrade using alembic, use r (optional) flag to specify rev-id
+	@uv run alembic downgrade $(if $(r),$(r),-1)
 
-migrations: ## Generate a migration using alembic
-	@$(VENV_BIN)/alembic -c $(ALEMBIC_CONFIG_FILE) revision --autogenerate --rev-id=$(VERSION)_$$(date +%y%m%d%H%M%S)
+migrations: ## Generate a migration using alembic, use r (optional) flag to specify rev-id
+	@uv run alembic revision --autogenerate --rev-id=$(if $(r),$(r),$$(awk -F rc '{print $$1}' <<< $(VERSION))_$$(date +%y%m%d%H%M%S))
+	@$(MAKE) format || exit 1
+
+check_migrations: ## Check for pending alembic migrations
+	@uv run alembic check
+
+merge_migrations: ## Merge migrations from specified rev-id (r) to head (current) version
+ifeq (, $(r))
+	@$(error r (rev-id) flag (e.g. r=0.0.5rc7_230725233618) not specified)
+else
+	@$(eval h = $(shell uv run alembic heads | awk '{print $$1}'))
+	@echo 'Detected head version: $(h)'
+	@echo 'Merging migrations from $(r) to $(h)'
+	@$(MAKE) downgrade r=$(r) || exit 1
+	@$(MAKE) downgrade r=-1 || true # go one more level up to discard changes from `r` rev id || exit 1
+	@uv run alembic history -r $(r):$(h) | awk -F '->|,|\\(' ' { print $$2 } ' | xargs -I{} rm src/app/migrations/versions/{}.py
+	@$(MAKE) migrations r=$(h) || exit 1
+	@$(MAKE) upgrade r=$(h) || exit 1
+endif	
 
 update_dependencies: ## Update dependencies
 	@echo "Note that this will not update versions for dependencies outside their version constraints specified in the pyproject.toml file."
 	@echo "To force update a dependency to latest version, use n (name) flag (e.g. n=pydantic). Use v (version) flag to update to a specific version"
 	@echo "To force update 'enable-common' package, v (version) flag is also required (e.g. n=enable-common v=0.0.6rc2)"
 ifeq (enable-common, $(n))
-    ifeq (, $(v))
-		@$(error v (version) flag (e.g. v=0.0.6rc2) not specified)
-    endif	
-	@poetry add git+https://github.com/enabletechnologies/common.git@v$(v)
+	@$(eval $@_cp := $(shell realpath $(COMMON_DIR)))
+	@$(eval $@_so := $(shell [[ "$$OSTYPE" == "darwin"* ]] && echo "-i ''" || echo "-i"))
+    ifeq (local, $(v))
+# since common dep is shared across 2 groups - main & dev, we do add for group dev only
+		@uv add $($@_cp) --editable 
+		@uv sync --locked || uv lock --no-upgrade || exit 1
+    else
+# use v if specified or derive from VERSION file in common dir	
+		@$(eval $@_v := $(if $(v), $(v), $(shell cat $(COMMON_DIR)/VERSION)))
+# replace common dir with common git
+		@uv add git+$(COMMON_GIT)@v$($@_v) || exit 1
+		@uv sync --locked || uv lock --no-upgrade || exit 1
+        ifeq (true, $(f))
+			@uv lock --upgrade
+        endif
+		@$(MAKE) check_migrations || exit 1
+		@$(MAKE) format || exit 1
+		@$(MAKE) test || exit 1
+		@git add -A && git diff-index --quiet HEAD || git commit -m "chore(deps): update dependencies"
+    endif
 else ifneq (, $(n))
-	@poetry add $(n)@$(v)
+	@uv add $(n)@$(v)
 else
-	@poetry update
+	@uv lock --upgrade
+	@$(MAKE) format || exit 1
+	@$(MAKE) test || exit 1
+	@git add -A && git diff-index --quiet HEAD || git commit -m "chore(deps): update dependencies"
 endif
 
 update_deps: update_dependencies # alias for update_dependencies
 
 check_dependencies: ## Check dependencies for latest available version
-	@poetry show -l	
+	@uv lock --upgrade --dry-run
 
 check_deps: check_dependencies # alias for check_dependencies
-
-init_f: ## Force initializes the project. Run this if you want to reset your virtual env and env parameters
-	@[ -e .env ] && rm .env || true
-	@[ -d .venv ] && rm -rf .venv || true
-	@make init
 
 release_rc: ## Releases RC version for next patch version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 	@cz bump --increment PATCH -pr rc --yes --no-verify --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@$(MAKE) project_build
 	@git push origin --tags
 
 release_minor_rc: ## Releases RC version for next minor version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 	@cz bump --increment MINOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@$(MAKE) project_build
 	@git push origin --tags
 
 release_major_rc: ## Releases RC version for next major version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 	@cz bump --increment MAJOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@$(MAKE) project_build
 	@git push origin --tags
 
 release: ## Releases next patch version
@@ -142,44 +212,88 @@ ifneq (, $(v))
 else
 	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
 endif
+	@$(MAKE) project_build
 	@git push origin --tags
 
 release_minor: ## Releases next minor version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 	@cz bump --increment MINOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@$(MAKE) project_build
 	@git push origin --tags
 
 release_major: ## Releases next major version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 	@cz bump --increment MAJOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@$(MAKE) project_build
 	@git push origin --tags
 
 release_calver: ## Releases next minor rc version for the calver versioning scheme
 	@cz bump --git-output-to-stderr --changelog-to-stdout $$(date +%y.%-m.0rc0)
+	@$(MAKE) project_build
 	@git push origin --tags
 
-release_gh: ## Creates a new GitHub Release for current version
-ifneq (,$(findstring rc,$(VERSION)))
-	@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) -p --generate-notes
-else
-	@gh release create v$(VERSION) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --generate-notes
-endif
+project_build: ## Builds the project
+	@uv sync --all-extras && git add -A && git diff-index --quiet HEAD || git commit -m "build(project): build projects" --no-verify
 
 docker_build: ## Builds the images
-	@docker compose -f docker-compose.yml build
+	$(eval ARTIFACT_REGISTRY := 'us-docker.pkg.dev/methodical-bee-392317/enable')
+	@docker buildx build -t $(APP_NAME):$(VERSION) --build-arg BASEBRANCH=$(BRANCH_ROOT) --build-arg IMAGETAG=$(VERSION) --build-arg IMAGE=$(APP_NAME) --build-arg ARTIFACT_REGISTRY=$(ARTIFACT_REGISTRY) -f docker/Dockerfile .
+
 
 docker_up: ## Builds the images if the images do not exist and starts the containers
-	@docker compose -f docker-compose.yml up -d
+	@echo $(abspath $(PWD)/../deploy/secrets)
+	@docker run -d --env-file .dockerenv -v ~/.config/gcloud:/home/999/.config/gcloud -p $(APP_PORT):8000 --name $(APP_NAME)  $(APP_NAME):$(VERSION) 
 
 docker_down: ##  Stops the running containers, also removes the stopped containers as well as any networks that were created
-	@docker compose -f docker-compose.yml down
+	@docker stop $(APP_NAME)
+	@docker rm $(APP_NAME)
 
 docker_prune: ## Prunes unused (dangling) images from local docker registry
 	@docker image prune -f
 	@docker builder prune -f
 
+seed: ## Deploys the functions to insert seed data and runs the seed script
+	@AUTO_SEED_FORCE=true uv run python3 src/app/seed/main.py load
+
+extract_seed: ## Extracts seed data from the application
+ifeq (, $(f))
+	@$(error f (file) flag (e.g. f=src/app/seed/002_product.json) not specified)
+endif
+	@uv run python3 src/app/seed/main.py extract -f $(f)
+
 pull: ## Pulls latest changes
+ifneq (, $(b))
+	@git checkout $(b)
+endif
 	@git pull --rebase
+	@$(MAKE) init || exit 1
+
+stop: ## Stops the application
+	@lsof -t -i:$(APP_PORT) | xargs -r -I {} pgrep -P {} | xargs -r kill
+	@lsof -t -i:$(APP_PORT) | xargs -r kill
+	@pgrep -f port=$(APP_PORT) | xargs -r kill
+
+ping: ## Pings the application
+	@curl http://localhost:$(APP_PORT)/api/$(APP_NAME)/diagnostics/ping | json_pp
+
+health: ## Performs Health check on application
+	@curl http://localhost:$(APP_PORT)/api/$(APP_NAME)/diagnostics/health | json_pp
 
 push: ## Pushes local commits to remote repository
 	@git push
+
+restart: ## Restarts the application.
+	@$(MAKE) stop start	
+
+release_gh: ## Creates a new GitHub Release for given version using issues in related milestone
+	@$(eval $@_v := $(or $(v),$(VERSION)))
+	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
+	@node $(DEPLOY_DIR)/scripts/release/create_gh_release_log.mjs $(APP_NAME) "V$($@_v)" > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cat $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+ifneq (1, $(dry-run))
+    ifneq (,$(findstring rc,$($@_v)))
+		@gh release create v$($@_v) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) -p --generate-notes -d
+    else
+		@gh release create v$($@_v) -F $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --generate-notes -d
+    endif
+endif

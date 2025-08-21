@@ -44,19 +44,6 @@ Add this to your `.pre-commit-config.yaml`
     - id: lint
 ```
 
-### `check_poetry_toml`
-
-A [pre-commit](https://pre-commit.com/) hook for Linting poetry config and prevents path dependencies from being checked in
-
-Add this to your `.pre-commit-config.yaml`
-
-```yaml
-- repo: https://github.com/enabletechnologies/pre-commit-hooks
-  rev: v0.2.0
-  hooks:
-    - id: check_poetry_toml
-```
-
 ### `check_uv_toml`
 
 A [pre-commit](https://pre-commit.com/) hook for Linting uv config and prevents path dependencies from being checked in
