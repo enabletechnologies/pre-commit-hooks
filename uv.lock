@@ -44,7 +44,7 @@ wheels = [
 
 [[package]]
 name = "enable-pre-commit-hooks"
-version = "25.8.1rc0"
+version = "25.8.1"
 source = { editable = "." }
 
 [package.optional-dependencies]
