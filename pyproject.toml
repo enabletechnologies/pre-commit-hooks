@@ -1,6 +1,6 @@
 [project]
 name = "enable_pre_commit_hooks"
-version = "0.7.1"
+version = "25.8.0rc0"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = [{ name = "Cloud Ops Admin", email = "cloudops@enable-technologies.com" }]
 keywords = ["precommit", "conventional", "commits", "git"]
@@ -17,7 +17,7 @@ optional-dependencies = {dev = [
 ]}
 
 [tool.commitizen]
-version = "0.7.1"
+version = "25.8.0rc0"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
