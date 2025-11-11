@@ -180,7 +180,7 @@ release_major: ## Releases next major version
 	@git push origin --tags
 
 release_calver: ## Releases next minor rc version for the calver versioning scheme
-	@cz bump --git-output-to-stderr --changelog-to-stdout $$(date +%y.%-m.0rc0)
+	@cz bump --git-output-to-stderr --changelog-to-stdout $$(date +%y.%-m.0rc0) --retry
 	@$(MAKE) project_build
 	@git push origin --tags
 
