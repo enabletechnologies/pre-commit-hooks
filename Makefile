@@ -141,41 +141,41 @@ check_deps: check_dependencies # alias for check_dependencies
 
 release_rc: ## Releases RC version for next patch version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment PATCH -pr rc --yes --no-verify --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --increment PATCH -pr rc --yes --no-verify --git-output-to-stderr --retry --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 	@$(MAKE) project_build
 	@git push origin --tags
 
 release_minor_rc: ## Releases RC version for next minor version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MINOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --increment MINOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 	@$(MAKE) project_build
 	@git push origin --tags
 
 release_major_rc: ## Releases RC version for next major version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MAJOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --increment MAJOR -pr rc --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 	@$(MAKE) project_build
 	@git push origin --tags
 
 release: ## Releases next patch version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
 ifneq (, $(v))
-	@cz bump --git-output-to-stderr --changelog-to-stdout $(v) > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --git-output-to-stderr --changelog-to-stdout $(v) > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 else
-	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --increment PATCH --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 endif
 	@$(MAKE) project_build
 	@git push origin --tags
 
 release_minor: ## Releases next minor version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MINOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --increment MINOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 	@$(MAKE) project_build
 	@git push origin --tags
 
 release_major: ## Releases next major version
 	@[ -d $(TMP_DIR) ] || mkdir $(TMP_DIR)
-	@cz bump --increment MAJOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE)
+	@cz bump --increment MAJOR --git-output-to-stderr --changelog-to-stdout > $(TMP_DIR)/$(CHANGELOG_NOTES_FILE) --retry
 	@$(MAKE) project_build
 	@git push origin --tags
 
