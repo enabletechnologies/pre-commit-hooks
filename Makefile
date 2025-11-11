@@ -119,64 +119,16 @@ else
 	@uv run uvicorn app.main:app --host=$(APP_HOST) --port=$(APP_PORT) --no-server-header --forwarded-allow-ips="*" --proxy-headers --reload &
 endif
 
-upgrade:  ## Run migrations upgrade using alembic, use r (optional) flag to specify rev-id
-	@uv run alembic upgrade $(if $(r),$(r),head)
-
-downgrade: ## Run migrations downgrade using alembic, use r (optional) flag to specify rev-id
-	@uv run alembic downgrade $(if $(r),$(r),-1)
-
-migrations: ## Generate a migration using alembic, use r (optional) flag to specify rev-id
-	@uv run alembic revision --autogenerate --rev-id=$(if $(r),$(r),$$(awk -F rc '{print $$1}' <<< $(VERSION))_$$(date +%y%m%d%H%M%S))
-	@$(MAKE) format || exit 1
-
-check_migrations: ## Check for pending alembic migrations
-	@uv run alembic check
-
-merge_migrations: ## Merge migrations from specified rev-id (r) to head (current) version
-ifeq (, $(r))
-	@$(error r (rev-id) flag (e.g. r=0.0.5rc7_230725233618) not specified)
-else
-	@$(eval h = $(shell uv run alembic heads | awk '{print $$1}'))
-	@echo 'Detected head version: $(h)'
-	@echo 'Merging migrations from $(r) to $(h)'
-	@$(MAKE) downgrade r=$(r) || exit 1
-	@$(MAKE) downgrade r=-1 || true # go one more level up to discard changes from `r` rev id || exit 1
-	@uv run alembic history -r $(r):$(h) | awk -F '->|,|\\(' ' { print $$2 } ' | xargs -I{} rm src/app/migrations/versions/{}.py
-	@$(MAKE) migrations r=$(h) || exit 1
-	@$(MAKE) upgrade r=$(h) || exit 1
-endif	
 
 update_dependencies: ## Update dependencies
 	@echo "Note that this will not update versions for dependencies outside their version constraints specified in the pyproject.toml file."
 	@echo "To force update a dependency to latest version, use n (name) flag (e.g. n=pydantic). Use v (version) flag to update to a specific version"
 	@echo "To force update 'enable-common' package, v (version) flag is also required (e.g. n=enable-common v=0.0.6rc2)"
-ifeq (enable-common, $(n))
-	@$(eval $@_cp := $(shell realpath $(COMMON_DIR)))
-	@$(eval $@_so := $(shell [[ "$$OSTYPE" == "darwin"* ]] && echo "-i ''" || echo "-i"))
-    ifeq (local, $(v))
-# since common dep is shared across 2 groups - main & dev, we do add for group dev only
-		@uv add $($@_cp) --editable 
-		@uv sync --locked || uv lock --no-upgrade || exit 1
-    else
-# use v if specified or derive from VERSION file in common dir	
-		@$(eval $@_v := $(if $(v), $(v), $(shell cat $(COMMON_DIR)/VERSION)))
-# replace common dir with common git
-		@uv add git+$(COMMON_GIT)@v$($@_v) || exit 1
-		@uv sync --locked || uv lock --no-upgrade || exit 1
-        ifeq (true, $(f))
-			@uv lock --upgrade
-        endif
-		@$(MAKE) check_migrations || exit 1
-		@$(MAKE) format || exit 1
-		@$(MAKE) test || exit 1
-		@git add -A && git diff-index --quiet HEAD || git commit -m "chore(deps): update dependencies"
-    endif
-else ifneq (, $(n))
+ifneq (, $(n))
 	@uv add $(n)@$(v)
 else
 	@uv lock --upgrade
 	@$(MAKE) format || exit 1
-	@$(MAKE) test || exit 1
 	@git add -A && git diff-index --quiet HEAD || git commit -m "chore(deps): update dependencies"
 endif
 
