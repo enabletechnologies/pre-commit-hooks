@@ -84,7 +84,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         default=None,
         help="Branch name to validate (default: current branch)",
     )
-    args = parser.parse_args(argv)
+    args, unknown = parser.parse_known_args(argv)  # noqa: RUF059
 
     try:
         branch_name = args.branch if args.branch else get_current_branch()
