@@ -61,7 +61,7 @@ info: ## Show the current environment info.
 
 init: ## Initializes the project. Run this after cloning the repository.
 	@[ -e .env ] || cp .env.example .env
-	@pre-commit install
+	@prek install -f 
 	@$(MAKE) install || exit 1
 
 init_f: ## Force initializes the project. Run this if you want to reset your virtual env and env parameters
