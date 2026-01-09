@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 # Default branch name pattern following conventional naming
 # Allows: feat/, fix/, build/, release/, chore/, docs/, test/, refactor/ prefixes
 # followed by a descriptive name with alphanumeric, hyphens, underscores, and slashes
-DEFAULT_PATTERN = r"^(main|lts|develop|main-fixes|lts-fixes|develop-to-main-fixes||HEAD)$|^(feat|fix|build|refactor|release|chore|docs|test)/[a-zA-Z0-9._-]+$"  # noqa: E501
+DEFAULT_PATTERN = r"^(main|lts|develop|main-fixes|lts-fixes|develop-to-main-fixes|main-to-develop|HEAD)$|^(feat|fix|build|refactor|release|chore|docs|test)/[a-zA-Z0-9._-]+$"  # noqa: E501
 
 
 # Branches that are always allowed
-ALLOWED_BRANCHES = frozenset({"main", "lts", "develop", "main-fixes", "lts-fixes", "develop-to-main-fixes", "HEAD"})
+ALLOWED_BRANCHES = frozenset({"main", "lts", "develop", "main-fixes", "lts-fixes", "develop-to-main-fixes", "main-to-develop", "HEAD"})
 
 
 def get_current_branch() -> str:
