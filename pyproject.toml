@@ -1,6 +1,6 @@
 [project]
 name = "enable_pre_commit_hooks"
-version = "26.1.0"
+version = "26.1.1"
 description = "A project to contain all pre-commit hooks for enable technologies"
 authors = [{ name = "Cloud Ops Admin", email = "cloudops@enable-technologies.com" }]
 requires-python = ">=3.14,<3.15"
@@ -29,7 +29,7 @@ check_uv_toml = "enable.pre_commit_hooks.check_uv_toml:main"
 check_branch_name = "enable.pre_commit_hooks.check_branch_name:main"
 
 [tool.commitizen]
-version = "26.1.0"
+version = "26.1.1"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
