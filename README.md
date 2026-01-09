@@ -57,6 +57,32 @@ Add this to your `.pre-commit-config.yaml`
     - id: check_uv_toml
 ```
 
+### `check_commit_msg`
+
+A [pre-commit](https://pre-commit.com/) hook for checking commit message for issue number and typos.
+
+Add this to your `.pre-commit-config.yaml`
+
+```yaml
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.7.1
+  hooks:
+    - id: check_commit_msg
+```
+
+### `check_branch_name`
+
+A [pre-commit](https://pre-commit.com/) hook for checks if the current git branch name follows the naming convention.
+
+Add this to your `.pre-commit-config.yaml`
+
+```yaml
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.7.1
+  hooks:
+    - id: check_branch_name
+```
+
 ### `out of box pre-commit hooks`
 
 In addition to above list you can add standard [pre-commit-hooks](https://pre-commit.com/hooks.html) provided by pre-commit itself.

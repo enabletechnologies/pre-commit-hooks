@@ -9,7 +9,6 @@
   stages: [commit-msg]
   language: python
   language_version: python3
-  minimum_pre_commit_version: "4.3.0"
 - id: lint
   name: lint
   entry: make
@@ -17,7 +16,6 @@
   pass_filenames: false
   language: python
   stages: [pre-commit]
-  minimum_pre_commit_version: "4.3.0"
 - id: format_mdj
   name: format_mdj
   entry: make
@@ -25,14 +23,12 @@
   pass_filenames: false
   language: python
   stages: [pre-commit]
-  minimum_pre_commit_version: "4.3.0"
 - id: check_commit_msg
   name: check commit message
   description: checks commit message for issue number and typos.
   entry: check_commit_msg
   language: python
   stages: [commit-msg]
-  minimum_pre_commit_version: "4.3.0"
 - id: eslint
   name: run eslint
   description: run eslint on staged files.
@@ -41,7 +37,6 @@
   stages: [pre-commit]
   types_or: [javascript, jsx, ts, tsx, markdown, mdx]
   args: [--cache]
-  minimum_pre_commit_version: "4.3.0"
 - id: stylelint
   name: run stylelint
   description: run stylelint on staged files.
@@ -50,7 +45,6 @@
   stages: [pre-commit]
   types_or: [css, tsx, scss]
   args: [--cache]
-  minimum_pre_commit_version: "4.3.0"
 - id: check_uv_toml
   name: lint pyproject.toml
   description: checks pyproject.toml files for parseable syntax path dependency.
@@ -59,4 +53,9 @@
   types: [toml]
   files: pyproject.toml
   stages: [pre-commit]
-  minimum_pre_commit_version: "4.3.0"
+- id: check_branch_name
+  name: check branch name
+  description: checks if the current git branch name follows the naming convention.
+  entry: check_branch_name
+  language: python
+  stages: [pre-commit]

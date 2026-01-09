@@ -84,7 +84,7 @@ format: ## Format code using ruff & typos.
 	@uv run ruff format src tests
 
 lint: ## Lint source code, docs, etc.
-	@uv run mypy -p enable.pre_commit_hooks
+	@uv run ty check src tests || exit 1
 	@uv run typos || exit 1
 	@uv run ruff check src tests || exit 1
 	@uv run ruff format src tests --check || exit 1

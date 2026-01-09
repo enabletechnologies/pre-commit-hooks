@@ -13,20 +13,20 @@ keywords = [
     "commits",
     "git",
 ]
-dependencies = []
 
 [project.optional-dependencies]
 dev = [
     "pytest-mock>=3.15.1,<4",
     "coverage>=7.11.3,<8",
     "ruff>=0.13.3,<0.14",
-    "mypy>=1.18.2,<2",
     "typos>=1.39.0,<2",
+     "ty>=0.0.10",
 ]
 
 [project.scripts]
 check_commit_msg = "enable.pre_commit_hooks.check_commit_msg:main"
 check_uv_toml = "enable.pre_commit_hooks.check_uv_toml:main"
+check_branch_name = "enable.pre_commit_hooks.check_branch_name:main"
 
 [tool.commitizen]
 version = "25.11.1"
@@ -72,9 +72,8 @@ notice-rgx = "(?i)Copyright © \\d{4}"
 
 [tool.uv]
 
-[tool.mypy]
-strict = true
-mypy_path = ["src", "tests"]
+[tool.pyright]
+typeCheckingMode="off"
 
 [tool.coverage.run]
 source = [ "src/enable" ]
