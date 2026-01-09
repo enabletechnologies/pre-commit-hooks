@@ -3,4 +3,4 @@
 All pre commit hooks supported by enable technologies.
 """
 
-__version__ = "25.11.1"
+__version__ = "26.1.0rc0"
