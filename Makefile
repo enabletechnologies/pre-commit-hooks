@@ -98,8 +98,7 @@ format_docs: ## Format docs.
 
 numthreads ?=auto
 test: ## Run tests.
-	@DEFAULT_TENANT_ID=enabletest make upgrade
-	@uv run pytest -v tests/ -n $(numthreads) --cov --dist=loadscope --maxprocesses=6
+	@uv run pytest -v tests/
 
 test_cov: ## Run tests and generate coverage report.
 	@$(MAKE) test || exit 1
