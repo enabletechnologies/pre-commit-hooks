@@ -12,7 +12,7 @@
 - id: lint
   name: lint
   entry: make
-  args: ["lint"]
+  args: ["lint", "COMMIT_HOOK=1"]
   pass_filenames: false
   language: python
   stages: [pre-commit]
