@@ -8,7 +8,7 @@
 
 Out-of-the-box hooks for pre-commit
 
-See also: https://github.com/pre-commit/pre-commit
+See also: <https://github.com/pre-commit/pre-commit>
 
 ## Hooks available
 
@@ -81,6 +81,29 @@ Add this to your `.pre-commit-config.yaml`
   rev: v0.7.1
   hooks:
     - id: check_branch_name
+```
+
+### `oxlint`, `stylelint_staged`, `rumdl`, `oxfmt`, `typos`
+
+Reusable UI-focused hooks for staged file linting and formatting:
+
+- `oxlint`: runs `pnpm oxlint` for JS/TS files
+- `stylelint_staged`: runs `pnpm stylelint:staged --` for CSS/SCSS/TSX files
+- `rumdl`: runs `pnpm rumdl --` for docs markdown files under `docs/`
+- `oxfmt`: runs `pnpm oxfmt --` for JS/TS/JSON files
+- `typos`: runs `typos` spell checker
+
+Add this to your `.pre-commit-config.yaml`
+
+```yaml
+- repo: https://github.com/enabletechnologies/pre-commit-hooks
+  rev: v0.7.1
+  hooks:
+    - id: oxlint
+    - id: stylelint_staged
+    - id: rumdl
+    - id: oxfmt
+    - id: typos
 ```
 
 ### `out of box pre-commit hooks`

@@ -30,6 +30,8 @@ If you would like to _implement_ a new feature, please consider the size of the 
 
 ## Submission Guidelines
 
+Use the following guidelines to submit issues and changes clearly and consistently.
+
 ### Submitting an Issue
 
 Before you submit an issue, please search the issue tracker. An issue for your problem might already exist and the discussion might inform you of workarounds readily available.
@@ -97,7 +99,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
   - We follow language specific style guides, but wrap all code at **140 characters**.
 
-    Internally we use a collection of formatting and linting tools. We recommend the same tools to be installed on your workspace, see [tooling](docs/internal/tooling.md).
+    Internally we use a collection of formatting and linting tools. We recommend the same tools to be installed on your workspace,
 
 ## Commit Message Format
 
@@ -108,7 +110,7 @@ This format leads to **easier to read commit history**.
 
 Each commit message consists of a **header**, a **body**, and a **footer**.
 
-```
+```text
 <header>
 <BLANK LINE>
 <body>
@@ -123,9 +125,9 @@ When the body is present it must be at least 40 characters long and must conform
 
 The `footer` is optional. The [Commit Message Footer](#commit-message-footer) format describes what the footer is used for and the structure it must have.
 
-#### Commit Message Header
+### Commit Message Header
 
-```
+```text
 <type>(<scope>): <short summary>
   │       │             │
   │       │             └─> Succinct description about changes. Not capitalized. No period at the end.
@@ -137,7 +139,7 @@ The `footer` is optional. The [Commit Message Footer](#commit-message-footer) fo
 
 The `<type>` and `<summary>` fields are mandatory, the `(<scope>)` field is optional.
 
-##### Type
+#### Type
 
 Must be one of the following:
 
@@ -178,7 +180,7 @@ You can include a comparison of the previous behavior with the new behavior in o
 The footer can contain information about breaking changes and deprecations and is also the place to reference GitHub issues, Jira tickets, and other PRs that this commit closes or is related to.
 For example:
 
-```
+```text
 BREAKING CHANGE: <breaking change summary>
 <BLANK LINE>
 <breaking change description + migration instructions>
@@ -189,7 +191,7 @@ Fixes #<issue number>
 
 or
 
-```
+```text
 DEPRECATED: <what is deprecated>
 <BLANK LINE>
 <deprecation description + recommended update path>

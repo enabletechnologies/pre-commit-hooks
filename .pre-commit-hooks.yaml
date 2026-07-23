@@ -29,22 +29,6 @@
   entry: check_commit_msg
   language: python
   stages: [commit-msg]
-- id: eslint
-  name: run eslint
-  description: run eslint on staged files.
-  entry: node_modules/.bin/eslint
-  language: system
-  stages: [pre-commit]
-  types_or: [javascript, jsx, ts, tsx, markdown, mdx]
-  args: [--cache]
-- id: stylelint
-  name: run stylelint
-  description: run stylelint on staged files.
-  entry: node_modules/.bin/stylelint
-  language: system
-  stages: [pre-commit]
-  types_or: [css, tsx, scss]
-  args: [--cache]
 - id: check_uv_toml
   name: lint pyproject.toml
   description: checks pyproject.toml files for parseable syntax path dependency.
@@ -57,5 +41,43 @@
   name: check branch name
   description: checks if the current git branch name follows the naming convention.
   entry: check_branch_name
+  language: python
+  stages: [pre-commit]
+- id: oxlint
+  name: run oxlint
+  description: run oxlint on staged JS/TS files.
+  entry: pnpm oxlint
+  language: system
+  stages: [pre-commit]
+  files: \.(js|jsx|mjs|cjs|ts|tsx)$
+  require_serial: true
+- id: stylelint
+  name: run stylelint
+  description: run stylelint:staged on staged CSS/SCSS/TSX files.
+  entry: pnpm stylelint:staged --
+  language: system
+  stages: [pre-commit]
+  files: \.(css|scss|tsx)$
+  require_serial: true
+- id: rumdl
+  name: run rumdl
+  description: run rumdl for documentation markdown files.
+  entry: pnpm rumdl --
+  language: system
+  stages: [pre-commit]
+  files: ^docs/.*\.(md|mdx)$
+  require_serial: true
+- id: oxfmt
+  name: run oxfmt
+  description: run oxfmt on staged source and json files.
+  entry: pnpm oxfmt --
+  language: system
+  stages: [pre-commit]
+  files: \.(js|mjs|cjs|ts|tsx|json)$
+  require_serial: true
+- id: typos
+  name: run typos
+  description: run typos spell checker on staged files.
+  entry: typos
   language: python
   stages: [pre-commit]

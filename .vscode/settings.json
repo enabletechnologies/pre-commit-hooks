@@ -1,6 +1,8 @@
 {
+  "files.associations": {
+    "*.mdx": "markdown"
+  },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "workbench.editor.enablePreview": false,
   "files.exclude": {
     "**/__pycache__": true,
@@ -12,6 +14,17 @@
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
       "source.organizeImports": "explicit"
+    }
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "rvben.rumdl",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.rumdl": "explicit"
+    }
+  },
+  "[mdx]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.rumdl": "explicit"
     }
   },
   "explorer.compactFolders": false,

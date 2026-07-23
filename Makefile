@@ -82,12 +82,14 @@ install_f: ## Install the project dependencies in dev mode and synchronize uv.lo
 format: ## Format code using ruff & typos.
 	@uv run ruff check src tests --fix
 	@uv run ruff format src tests
+	@uv run rumdl check --fix
 
 lint: ## Lint source code, docs, etc.
 	@uv run ty check src tests || exit 1
 	@uv run typos || exit 1
 	@uv run ruff check src tests || exit 1
 	@uv run ruff format src tests --check || exit 1
+	@uv run rumdl check 
 
 lint_docs: ## Lint docs.
 	@markdownlint docs

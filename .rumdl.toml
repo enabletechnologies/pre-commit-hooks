@@ -1,0 +1,25 @@
+[global]
+cache-dir = ".cache/rumdl"
+disable = ["MD013"]
+extend-enable = ["MD060", "MD070", "MD080", "MD082"]
+include = ["docs/**/*.md", "docs/**/*.mdx"]
+exclude = ["CHANGELOG.md"]
+
+[per-file-ignores]
+"**/*.mdx" = ["MD033"]
+
+[per-file-flavor]
+"**/*.mdx" = "mdx"
+
+[MD033]
+allowed-elements = ["br", "video"]
+
+[MD057]
+absolute-links = "ignore"
+
+[MD046]
+style = "fenced"
+
+[MD060]
+enabled = true
+style = "any"
