@@ -1,3 +1,9 @@
+## v26.6.0 (2026-07-23)
+
+### Feat
+
+- **lint**: updated to  use oxlint enabletechnologies/ui#3093
+
 ## v26.4.0 (2026-05-29)
 
 ## v26.1.2 (2026-01-17)
