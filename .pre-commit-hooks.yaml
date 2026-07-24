@@ -79,5 +79,6 @@
   name: run typos
   description: run typos spell checker on staged files.
   entry: typos
+  args: [--force-exclude]
   language: python
   stages: [pre-commit]
