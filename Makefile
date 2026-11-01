@@ -36,7 +36,7 @@ COMMON_DIR := ../common
 BRANCH_ROOT := $(shell git branch --show-current | awk -F\- '{print $1}')
 
 # python version used by uv and others
-PYTHON_VERSION := 3.14
+PYTHON_VERSION := 3.15
 
 # deploy directory, where the common scripts are located
 DEPLOY_DIR ?= ../deploy
